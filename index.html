@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>I-Desk | Terminal</title>
-    
     <link rel="icon" type="image/png" href="logo.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -22,10 +21,26 @@
         
         /* ESTILOS PDF */
         .pdf-fixed-width { width: 750px !important; margin: 0 auto !important; background-color: #0f172a !important; border: none !important; box-shadow: none !important; }
-        .pdf-grid-layout { display: grid !important; grid-template-columns: 45% 55% !important; gap: 20px !important; align-items: start !important; }
-        .pdf-table-compact td, .pdf-table-compact th { padding: 4px 8px !important; font-size: 10px !important; }
+        .pdf-grid-layout { display: grid !important; grid-template-columns: 45% 55% !important; gap: 20px !important; align-items: center !important; }
+        .pdf-table-compact td, .pdf-table-compact th { padding: 4px 4px !important; font-size: 9px !important; }
+        
+        /* Estilos Botones Filtro */
+        .btn-filter { 
+            font-size: 10px; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            padding: 6px 16px; 
+            border-radius: 9999px; 
+            border: 1px solid; 
+            cursor: pointer;
+            display: inline-block;
+            margin: 0 4px; /* Separación entre botones */
+        }
+        .btn-active { background-color: #3b82f6; color: white; border-color: #3b82f6; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); }
+        /* Fondo semitransparente para asegurar visibilidad */
+        .btn-inactive { background-color: rgba(30, 41, 59, 0.8); color: #94a3b8; border-color: #475569; } 
+        .btn-inactive:hover { border-color: #94a3b8; color: white; background-color: rgba(255,255,255,0.1); }
 
-        /* Animación Notificación */
         @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         .notification-anim { animation: slideIn 0.5s ease-out forwards; }
     </style>
@@ -36,9 +51,7 @@
         <div class="glass-panel p-8 rounded-2xl w-full max-w-md border border-gray-700 shadow-2xl relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent"></div>
             <div class="text-center mb-8">
-                <div class="flex justify-center mb-4">
-                    <img src="logo.png" class="w-20 h-20 rounded-full shadow-lg border-2 border-blue-500/30 object-cover" alt="Logo">
-                </div>
+                <div class="flex justify-center mb-4"><img src="logo.png" class="w-20 h-20 rounded-full shadow-lg border-2 border-blue-500/30 object-cover"></div>
                 <h2 class="text-2xl font-bold text-white">Acceso Privado</h2>
                 <p class="text-gray-400 text-sm mt-2">I-Desk Asset Management</p>
             </div>
@@ -51,23 +64,10 @@
         </div>
     </div>
 
-    <div id="notification-toast" class="fixed top-24 right-5 z-50 hidden max-w-sm w-full">
-        <div class="glass-panel p-4 rounded-xl border-l-4 border-blue-500 shadow-2xl flex items-start gap-4 notification-anim">
-            <div class="bg-blue-500/20 p-2 rounded-full text-blue-400">
-                <i class="ph-fill ph-bell-ringing text-xl"></i>
-            </div>
-            <div class="flex-1">
-                <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-1">Novedad</h4>
-                <p id="notif-text" class="text-sm text-gray-300 leading-snug"></p>
-            </div>
-            <button onclick="closeNotification()" class="text-gray-500 hover:text-white transition"><i class="ph-bold ph-x"></i></button>
-        </div>
-    </div>
-
     <nav class="border-b border-gray-800 bg-slate-900/80 sticky top-0 z-30 backdrop-blur-md">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <img src="logo.png" class="w-8 h-8 rounded-full border border-blue-500/50 object-cover" alt="I-Desk Logo">
+                <img src="logo.png" class="w-8 h-8 rounded-full border border-blue-500/50 object-cover">
                 <span class="text-lg md:text-xl font-bold tracking-tight text-white">I-Desk <span class="text-blue-500">Asset Management</span></span>
             </div>
             <div class="hidden md:flex space-x-8 text-sm font-medium">
@@ -83,16 +83,8 @@
         <p class="text-gray-400">Selecciona una cartera para ver el desglose detallado o descargar el reporte.</p>
     </header>
 
-    <section id="carteras" class="container mx-auto px-6 mb-16">
-        <div id="portfolio-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-    </section>
-
-    <section id="trades" class="bg-slate-900/50 py-16 border-t border-gray-800">
-        <div class="container mx-auto px-6">
-            <h2 class="text-2xl font-bold text-white mb-8">Trade Ideas Recientes</h2>
-            <div id="trades-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"></div>
-        </div>
-    </section>
+    <section id="carteras" class="container mx-auto px-6 mb-16"><div id="portfolio-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div></section>
+    <section id="trades" class="bg-slate-900/50 py-16 border-t border-gray-800"><div class="container mx-auto px-6"><h2 class="text-2xl font-bold text-white mb-8">Trade Ideas Recientes</h2><div id="trades-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"></div></div></section>
 
     <div id="portfolio-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closePortfolioModal()"></div>
@@ -100,15 +92,14 @@
             <div class="flex justify-between items-center p-4 border-b border-gray-800 bg-slate-800/50 sticky top-0 z-10">
                 <h3 class="text-gray-400 text-sm font-mono">VISTA DE DETALLE</h3>
                 <div class="flex gap-2">
-                    <button id="btn-download-pdf" onclick="downloadPortfolioPDF()" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition font-medium">
-                        <i class="ph-bold ph-download-simple"></i> Descargar PDF
-                    </button>
+                    <button id="btn-download-pdf" onclick="downloadPortfolioPDF()" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition font-medium"><i class="ph-bold ph-download-simple"></i> Descargar PDF</button>
                     <button onclick="closePortfolioModal()" class="text-gray-400 hover:text-white p-2"><i class="ph-bold ph-x text-xl"></i></button>
                 </div>
             </div>
             
             <div class="w-full flex justify-center bg-slate-900">
                 <div id="printable-area" class="p-8 md:p-12 text-white w-full transition-all duration-300">
+                    
                     <div class="flex justify-between items-start mb-8 border-b border-gray-700 pb-6">
                         <div>
                             <span class="text-blue-500 font-bold text-sm tracking-widest uppercase">PORTAFOLIO</span>
@@ -122,37 +113,43 @@
                     </div>
 
                     <div id="modal-content-grid" class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center mb-8">
-                        <div id="chart-container-div" class="h-80 w-full flex items-center justify-center relative">
-                            <canvas id="modal-chart"></canvas>
-                        </div>
-                        <div class="w-full">
-                            <div class="flex items-center gap-3 mb-4">
-                                <div class="h-6 w-1 bg-blue-500 rounded-full"></div>
-                                <h4 class="text-lg font-bold">Composición de Activos</h4>
+                        
+                        <div class="w-full flex flex-col items-center justify-center">
+                            
+                            <div id="chart-container-div" class="h-80 w-full flex items-center justify-center relative">
+                                <canvas id="modal-chart"></canvas>
                             </div>
+
+                            <div class="w-full flex justify-center gap-3 mt-6">
+                                <button onclick="updateChartMode('activo')" id="btn-activo" class="btn-filter btn-active">Activo</button>
+                                <button onclick="updateChartMode('tipo')" id="btn-tipo" class="btn-filter btn-inactive">Tipo</button>
+                                <button onclick="updateChartMode('moneda')" id="btn-moneda" class="btn-filter btn-inactive">Moneda</button>
+                            </div>
+                        </div>
+                        
+                        <div class="w-full">
+                            <div class="flex items-center gap-3 mb-4"><div class="h-6 w-1 bg-blue-500 rounded-full"></div><h4 class="text-lg font-bold">Composición de Activos</h4></div>
                             <div class="overflow-hidden rounded-xl border border-gray-700 bg-slate-800/30">
                                 <table class="w-full text-sm text-left">
                                     <thead class="bg-slate-800 text-gray-400 uppercase font-mono text-xs tracking-wider">
-                                        <tr><th class="px-6 py-4">Activo</th><th class="px-6 py-4 text-right">Peso (%)</th></tr>
+                                        <tr>
+                                            <th class="px-4 py-4">Activo</th>
+                                            <th class="px-4 py-4 text-center">Tipo</th>
+                                            <th class="px-4 py-4 text-center">Moneda</th>
+                                            <th class="px-4 py-4 text-right">Peso (%)</th>
+                                        </tr>
                                     </thead>
                                     <tbody id="pm-table-body" class="divide-y divide-gray-700/50"></tbody>
                                 </table>
-                                <div class="p-3 bg-blue-900/20 text-blue-200 text-[10px] text-center border-t border-gray-700">
-                                    Los rendimientos pasados no garantizan resultados futuros. Gestión activa.
-                                </div>
+                                <div class="p-3 bg-blue-900/20 text-blue-200 text-[10px] text-center border-t border-gray-700">Los rendimientos pasados no garantizan resultados futuros. Gestión activa.</div>
                             </div>
                         </div>
                     </div>
 
                     <div id="movimientos-wrapper" class="hidden">
                         <div class="border-t border-gray-700 pt-6 mt-6">
-                            <div class="flex items-center gap-3 mb-4">
-                                <div class="h-6 w-1 bg-emerald-500 rounded-full"></div>
-                                <h4 class="text-lg font-bold">Últimos Movimientos Estratégicos</h4>
-                            </div>
-                            <div class="bg-slate-800/30 border border-gray-700 rounded-xl p-6 w-full">
-                                <p id="pm-movimientos" class="text-gray-300 text-sm leading-relaxed font-mono"></p>
-                            </div>
+                            <div class="flex items-center gap-3 mb-4"><div class="h-6 w-1 bg-emerald-500 rounded-full"></div><h4 class="text-lg font-bold">Últimos Movimientos Estratégicos</h4></div>
+                            <div class="bg-slate-800/30 border border-gray-700 rounded-xl p-6 w-full"><p id="pm-movimientos" class="text-gray-300 text-sm leading-relaxed font-mono"></p></div>
                         </div>
                     </div>
                 </div>
@@ -165,19 +162,21 @@
         <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-xl p-4">
             <div class="bg-slate-900 border border-gray-700 rounded-2xl shadow-2xl p-6 relative">
                 <button onclick="closeTradeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="ph ph-x text-2xl"></i></button>
-                <h3 id="tm-title" class="text-xl font-bold text-white mb-2">Trade</h3>
-                <span id="tm-date" class="text-xs text-gray-500 bg-gray-800 px-2 py-1 rounded">Fecha</span>
-                <div class="mt-4 max-h-[60vh] overflow-y-auto">
-                    <img id="tm-img" src="" class="w-full rounded-lg mb-4 hidden">
-                    <p id="tm-body" class="text-gray-300 whitespace-pre-wrap leading-relaxed"></p>
-                </div>
+                <h3 id="tm-title" class="text-xl font-bold text-white mb-2">Trade</h3><span id="tm-date" class="text-xs text-gray-500 bg-gray-800 px-2 py-1 rounded">Fecha</span>
+                <div class="mt-4 max-h-[60vh] overflow-y-auto"><img id="tm-img" src="" class="w-full rounded-lg mb-4 hidden"><p id="tm-body" class="text-gray-300 whitespace-pre-wrap leading-relaxed"></p></div>
             </div>
         </div>
     </div>
 
-    <footer class="mt-auto py-8 border-t border-gray-800 text-center text-gray-500 text-sm">
-        <p>&copy; 2026 I-Desk Asset Management. Datos provistos vía Google Sheets API.</p>
-    </footer>
+    <div id="notification-toast" class="fixed top-24 right-5 z-50 hidden max-w-sm w-full">
+        <div class="glass-panel p-4 rounded-xl border-l-4 border-blue-500 shadow-2xl flex items-start gap-4 notification-anim">
+            <div class="bg-blue-500/20 p-2 rounded-full text-blue-400"><i class="ph-fill ph-bell-ringing text-xl"></i></div>
+            <div class="flex-1"><h4 class="text-sm font-bold text-white uppercase tracking-wider mb-1">Novedad</h4><p id="notif-text" class="text-sm text-gray-300 leading-snug"></p></div>
+            <button onclick="closeNotification()" class="text-gray-500 hover:text-white transition"><i class="ph-bold ph-x"></i></button>
+        </div>
+    </div>
+
+    <footer class="mt-auto py-8 border-t border-gray-800 text-center text-gray-500 text-sm"><p>&copy; 2026 I-Desk Asset Management. Datos provistos vía Google Sheets API.</p></footer>
 
     <script>
         // ==========================================
@@ -189,26 +188,13 @@
         const USER_CORRECTO = "admin";
         const PASS_CORRECTO = "idesk2026";
         
-        let globalData = { carteras: [], trades: [], notificacion: "" };
+        let globalData = { carteras: [], trades: [], notificacion: "", clasificador: {} };
         let currentModalChart = null;
+        let currentPortfolioIndex = 0;
 
-        document.addEventListener("DOMContentLoaded", () => {
-            if(localStorage.getItem("idesk_logged_in") === "true") ocultarLogin();
-        });
-
-        function intentarLogin(e) {
-            e.preventDefault();
-            if (document.getElementById("input-user").value === USER_CORRECTO && 
-                document.getElementById("input-pass").value === PASS_CORRECTO) {
-                localStorage.setItem("idesk_logged_in", "true");
-                ocultarLogin();
-            } else { document.getElementById("error-msg").classList.remove("hidden"); }
-        }
-        function ocultarLogin() {
-            document.getElementById("login-screen").classList.add("hidden-login");
-            document.getElementById("main-body").classList.remove("overflow-hidden");
-            fetchData();
-        }
+        document.addEventListener("DOMContentLoaded", () => { if(localStorage.getItem("idesk_logged_in") === "true") ocultarLogin(); });
+        function intentarLogin(e) { e.preventDefault(); if (document.getElementById("input-user").value === USER_CORRECTO && document.getElementById("input-pass").value === PASS_CORRECTO) { localStorage.setItem("idesk_logged_in", "true"); ocultarLogin(); } else { document.getElementById("error-msg").classList.remove("hidden"); } }
+        function ocultarLogin() { document.getElementById("login-screen").classList.add("hidden-login"); document.getElementById("main-body").classList.remove("overflow-hidden"); fetchData(); }
         function logout() { localStorage.removeItem("idesk_logged_in"); location.reload(); }
 
         async function fetchData() {
@@ -221,52 +207,28 @@
             } catch (error) { console.error(error); }
         }
 
-        // --- SISTEMA DE NOTIFICACIONES ---
-        function checkNotification(message) {
-            const toast = document.getElementById('notification-toast');
-            if (message && message.trim() !== "") {
-                document.getElementById('notif-text').innerText = message;
-                toast.classList.remove('hidden');
-            } else { toast.classList.add('hidden'); }
-        }
+        function checkNotification(message) { if (message && message.trim() !== "") { document.getElementById('notif-text').innerText = message; document.getElementById('notification-toast').classList.remove('hidden'); } else { document.getElementById('notification-toast').classList.add('hidden'); } }
         function closeNotification() { document.getElementById('notification-toast').classList.add('hidden'); }
 
         function renderPortfolios(carteras) {
-            const container = document.getElementById('portfolio-grid');
-            container.innerHTML = ''; 
+            const container = document.getElementById('portfolio-grid'); container.innerHTML = ''; 
             carteras.forEach((cartera, index) => {
                 const chartId = `mini-chart-${index}`;
-                container.insertAdjacentHTML('beforeend', `
-                    <div onclick="openPortfolioModal(${index})" class="glass-panel rounded-2xl p-6 flex flex-col card-hover group">
-                        <div class="flex justify-between items-start mb-4">
-                            <div><h3 class="text-lg font-bold text-white group-hover:text-blue-400 transition">${cartera.nombre}</h3><p class="text-gray-400 text-xs mt-1 truncate w-40">${cartera.descripcion}</p></div>
-                            <i class="ph-bold ph-arrows-out-simple text-gray-500 group-hover:text-white"></i>
-                        </div>
-                        <div class="relative h-40 w-full"><canvas id="${chartId}"></canvas></div>
-                    </div>`);
-                new Chart(document.getElementById(chartId).getContext('2d'), {
-                    type: 'doughnut', data: { labels: cartera.activos, datasets: [{ data: cartera.porcentajes, backgroundColor: cartera.activos.map((_, i) => getColor(i)), borderWidth: 0 }] },
-                    options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { display: false } } }
-                });
+                container.insertAdjacentHTML('beforeend', `<div onclick="openPortfolioModal(${index})" class="glass-panel rounded-2xl p-6 flex flex-col card-hover group"><div class="flex justify-between items-start mb-4"><div><h3 class="text-lg font-bold text-white group-hover:text-blue-400 transition">${cartera.nombre}</h3><p class="text-gray-400 text-xs mt-1 truncate w-40">${cartera.descripcion}</p></div><i class="ph-bold ph-arrows-out-simple text-gray-500 group-hover:text-white"></i></div><div class="relative h-40 w-full"><canvas id="${chartId}"></canvas></div></div>`);
+                new Chart(document.getElementById(chartId).getContext('2d'), { type: 'doughnut', data: { labels: cartera.activos, datasets: [{ data: cartera.porcentajes, backgroundColor: cartera.activos.map((_, i) => getColor(i)), borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { display: false } } } });
             });
         }
 
-        // --- CORRECCIÓN AQUÍ: Uso de índice en vez de strings para evitar errores ---
         function renderTrades(trades) {
-            const container = document.getElementById('trades-grid');
-            container.innerHTML = '';
+            const container = document.getElementById('trades-grid'); container.innerHTML = '';
             trades.forEach((trade, index) => {
                 const dateDisplay = new Date(trade.fecha).toLocaleDateString();
-                container.insertAdjacentHTML('beforeend', `
-                    <div class="glass-panel rounded-2xl p-6 card-hover border-l-4 border-blue-500">
-                        <div class="flex justify-between mb-2"><span class="text-xs font-mono text-blue-400 uppercase">Trade Idea</span><span class="text-xs text-gray-500">${dateDisplay}</span></div>
-                        <h3 class="text-xl font-bold text-white mb-2">${trade.titulo}</h3>
-                        <button onclick="openTradeModal(${index})" class="text-sm text-gray-400 hover:text-white flex items-center gap-1 mt-4">Ver análisis <i class="ph-bold ph-arrow-right"></i></button>
-                    </div>`);
+                container.insertAdjacentHTML('beforeend', `<div class="glass-panel rounded-2xl p-6 card-hover border-l-4 border-blue-500"><div class="flex justify-between mb-2"><span class="text-xs font-mono text-blue-400 uppercase">Trade Idea</span><span class="text-xs text-gray-500">${dateDisplay}</span></div><h3 class="text-xl font-bold text-white mb-2">${trade.titulo}</h3><button onclick="openTradeModal(${index})" class="text-sm text-gray-400 hover:text-white flex items-center gap-1 mt-4">Ver análisis <i class="ph-bold ph-arrow-right"></i></button></div>`);
             });
         }
 
         function openPortfolioModal(index) {
+            currentPortfolioIndex = index;
             const cartera = globalData.carteras[index];
             document.getElementById('pm-title').innerText = cartera.nombre;
             document.getElementById('pm-desc').innerText = cartera.descripcion;
@@ -274,30 +236,93 @@
             
             const tbody = document.getElementById('pm-table-body');
             tbody.innerHTML = '';
+            
             cartera.activos.forEach((activo, i) => {
+                const tickerKey = activo.trim().toUpperCase();
+                const info = globalData.clasificador[tickerKey] || null;
+                let tipoDisplay = '<span class="text-red-500 font-bold text-[9px]">⚠️ FALTA</span>';
+                let monedaDisplay = '-';
+                let monedaColor = 'text-gray-500';
+
+                if (info) {
+                    tipoDisplay = `<span class="bg-gray-800 text-gray-300 px-2 py-1 rounded text-[9px] uppercase tracking-wide border border-gray-700">${info.tipo}</span>`;
+                    monedaDisplay = info.moneda;
+                    if(info.moneda.toLowerCase().includes('dólar') || info.moneda.toLowerCase().includes('usd')) monedaColor = 'text-green-400';
+                    else if(info.moneda.toLowerCase().includes('peso')) monedaColor = 'text-blue-300';
+                }
+
                 tbody.innerHTML += `
                     <tr class="hover:bg-gray-800/50 transition group">
-                        <td class="px-6 py-4 flex items-center gap-3"><span class="w-3 h-3 rounded-full ring-2 ring-transparent group-hover:ring-white/20" style="background-color: ${getColor(i)}"></span><span class="font-medium text-gray-200">${activo}</span></td>
-                        <td class="px-6 py-4 text-right font-mono text-blue-300 font-bold">${cartera.porcentajes[i]}%</td>
+                        <td class="px-4 py-3 flex items-center gap-3"><span class="w-3 h-3 rounded-full ring-2 ring-transparent group-hover:ring-white/20 transition" style="background-color: ${getColor(i)}"></span><span class="font-medium text-gray-200">${activo}</span></td>
+                        <td class="px-4 py-3 text-center">${tipoDisplay}</td>
+                        <td class="px-4 py-3 text-center font-medium ${monedaColor} text-xs">${monedaDisplay}</td>
+                        <td class="px-4 py-3 text-right font-mono text-blue-300 font-bold">${cartera.porcentajes[i]}%</td>
                     </tr>`;
             });
 
             const movDiv = document.getElementById('movimientos-wrapper');
             const movText = document.getElementById('pm-movimientos');
-            if (cartera.movimientos && cartera.movimientos.trim().length > 0) {
-                movText.innerText = cartera.movimientos;
-                movDiv.classList.remove('hidden');
-            } else { movDiv.classList.add('hidden'); }
+            if (cartera.movimientos && cartera.movimientos.trim().length > 0) { movText.innerText = cartera.movimientos; movDiv.classList.remove('hidden'); } else { movDiv.classList.add('hidden'); }
+
+            updateChartMode('activo');
+            document.getElementById('portfolio-modal').classList.remove('hidden');
+        }
+
+        function updateChartMode(mode) {
+            const cartera = globalData.carteras[currentPortfolioIndex];
+            
+            ['activo', 'tipo', 'moneda'].forEach(m => {
+                const btn = document.getElementById(`btn-${m}`);
+                if(m === mode) { btn.classList.remove('btn-inactive'); btn.classList.add('btn-active'); }
+                else { btn.classList.remove('btn-active'); btn.classList.add('btn-inactive'); }
+            });
+
+            let chartLabels = [];
+            let chartData = [];
+
+            if (mode === 'activo') {
+                chartLabels = cartera.activos;
+                chartData = cartera.porcentajes;
+            } else {
+                let grouped = {};
+                cartera.activos.forEach((activo, i) => {
+                    const tickerKey = activo.trim().toUpperCase();
+                    const info = globalData.clasificador[tickerKey] || { tipo: 'Sin Clasificar', moneda: 'Sin Clasificar' };
+                    let key = (mode === 'tipo') ? info.tipo : info.moneda;
+                    if(!key || key === "") key = "Sin Clasificar";
+                    if (!grouped[key]) grouped[key] = 0;
+                    grouped[key] += cartera.porcentajes[i];
+                });
+                chartLabels = Object.keys(grouped);
+                chartData = Object.values(grouped);
+            }
 
             if (currentModalChart) currentModalChart.destroy();
             const ctx = document.getElementById('modal-chart').getContext('2d');
             currentModalChart = new Chart(ctx, {
                 type: 'doughnut',
-                data: { labels: cartera.activos, datasets: [{ data: cartera.porcentajes, backgroundColor: cartera.activos.map((_, i) => getColor(i)), borderColor: '#0f172a', borderWidth: 0, hoverOffset: 10 }] },
-                options: { responsive: true, maintainAspectRatio: false, cutout: '60%', plugins: { legend: { display: false }, tooltip: { backgroundColor: 'rgba(15, 23, 42, 0.9)', padding: 12, bodyFont: { size: 14 } } } }
+                data: {
+                    labels: chartLabels,
+                    datasets: [{
+                        data: chartData,
+                        backgroundColor: chartLabels.map((_, i) => getColor(i)),
+                        borderColor: '#0f172a',
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '60%',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { backgroundColor: 'rgba(15, 23, 42, 0.9)', padding: 12, bodyFont: { size: 14 } }
+                    }
+                }
             });
-            document.getElementById('portfolio-modal').classList.remove('hidden');
         }
+
         function closePortfolioModal() { document.getElementById('portfolio-modal').classList.add('hidden'); }
 
         function downloadPortfolioPDF() {
@@ -310,25 +335,13 @@
             btn.innerHTML = '<i class="ph ph-spinner animate-spin"></i> Generando...';
             document.getElementById('pdf-timestamp').innerText = "Reporte Generado: " + new Date().toLocaleString('es-ES');
             element.classList.add('pdf-fixed-width');
-            grid.classList.remove('md:grid-cols-2'); 
-            grid.classList.add('pdf-grid-layout');
+            grid.classList.remove('md:grid-cols-2'); grid.classList.add('pdf-grid-layout');
             tbody.classList.add('pdf-table-compact');
             const title = document.getElementById('pm-title').innerText.replace(/\s+/g, '_');
-            const opt = {
-                margin: [10, 10], filename: `IDesk_${title}.pdf`, image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true, backgroundColor: '#0f172a', scrollX: 0, scrollY: 0 }, 
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } 
-            };
-            html2pdf().set(opt).from(element).save().then(() => {
-                element.classList.remove('pdf-fixed-width');
-                grid.classList.remove('pdf-grid-layout');
-                grid.classList.add('md:grid-cols-2');
-                tbody.classList.remove('pdf-table-compact');
-                btn.innerHTML = originalBtnText;
-            });
+            const opt = { margin: [10, 10], filename: `IDesk_${title}.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true, backgroundColor: '#0f172a', scrollX: 0, scrollY: 0 }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } };
+            html2pdf().set(opt).from(element).save().then(() => { element.classList.remove('pdf-fixed-width'); grid.classList.remove('pdf-grid-layout'); grid.classList.add('md:grid-cols-2'); tbody.classList.remove('pdf-table-compact'); btn.innerHTML = originalBtnText; });
         }
 
-        // --- CORRECCIÓN AQUÍ: Recibe índice y busca datos ---
         function openTradeModal(index) {
             const trade = globalData.trades[index];
             document.getElementById('tm-title').innerText = trade.titulo;
