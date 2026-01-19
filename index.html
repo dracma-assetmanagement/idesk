@@ -23,23 +23,13 @@
         .pdf-fixed-width { width: 750px !important; margin: 0 auto !important; background-color: #0f172a !important; border: none !important; box-shadow: none !important; }
         .pdf-grid-layout { display: grid !important; grid-template-columns: 45% 55% !important; gap: 20px !important; align-items: center !important; }
         .pdf-table-compact td, .pdf-table-compact th { padding: 4px 4px !important; font-size: 9px !important; }
-        
+        .no-print { display: none !important; }
+
         /* Estilos Botones Filtro */
-        .btn-filter { 
-            font-size: 10px; 
-            font-weight: 700; 
-            text-transform: uppercase; 
-            padding: 6px 16px; 
-            border-radius: 9999px; 
-            border: 1px solid; 
-            cursor: pointer;
-            display: inline-block;
-            margin: 0 4px; /* Separación entre botones */
-        }
+        .btn-filter { font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 6px 16px; border-radius: 9999px; border: 1px solid; transition: all 0.2s; cursor: pointer; display: inline-block; margin: 0 2px; }
         .btn-active { background-color: #3b82f6; color: white; border-color: #3b82f6; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); }
-        /* Fondo semitransparente para asegurar visibilidad */
-        .btn-inactive { background-color: rgba(30, 41, 59, 0.8); color: #94a3b8; border-color: #475569; } 
-        .btn-inactive:hover { border-color: #94a3b8; color: white; background-color: rgba(255,255,255,0.1); }
+        .btn-inactive { background-color: transparent; color: #94a3b8; border-color: #334155; } 
+        .btn-inactive:hover { border-color: #94a3b8; color: white; }
 
         @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         .notification-anim { animation: slideIn 0.5s ease-out forwards; }
@@ -113,31 +103,20 @@
                     </div>
 
                     <div id="modal-content-grid" class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center mb-8">
-                        
                         <div class="w-full flex flex-col items-center justify-center">
-                            
-                            <div id="chart-container-div" class="h-80 w-full flex items-center justify-center relative">
-                                <canvas id="modal-chart"></canvas>
-                            </div>
-
+                            <div id="chart-container-div" class="h-80 w-full flex items-center justify-center relative"><canvas id="modal-chart"></canvas></div>
                             <div class="w-full flex justify-center gap-3 mt-6">
                                 <button onclick="updateChartMode('activo')" id="btn-activo" class="btn-filter btn-active">Activo</button>
                                 <button onclick="updateChartMode('tipo')" id="btn-tipo" class="btn-filter btn-inactive">Tipo</button>
                                 <button onclick="updateChartMode('moneda')" id="btn-moneda" class="btn-filter btn-inactive">Moneda</button>
                             </div>
                         </div>
-                        
                         <div class="w-full">
                             <div class="flex items-center gap-3 mb-4"><div class="h-6 w-1 bg-blue-500 rounded-full"></div><h4 class="text-lg font-bold">Composición de Activos</h4></div>
                             <div class="overflow-hidden rounded-xl border border-gray-700 bg-slate-800/30">
                                 <table class="w-full text-sm text-left">
                                     <thead class="bg-slate-800 text-gray-400 uppercase font-mono text-xs tracking-wider">
-                                        <tr>
-                                            <th class="px-4 py-4">Activo</th>
-                                            <th class="px-4 py-4 text-center">Tipo</th>
-                                            <th class="px-4 py-4 text-center">Moneda</th>
-                                            <th class="px-4 py-4 text-right">Peso (%)</th>
-                                        </tr>
+                                        <tr><th class="px-4 py-4">Activo</th><th class="px-4 py-4 text-center">Tipo</th><th class="px-4 py-4 text-center">Moneda</th><th class="px-4 py-4 text-right">Peso (%)</th></tr>
                                     </thead>
                                     <tbody id="pm-table-body" class="divide-y divide-gray-700/50"></tbody>
                                 </table>
@@ -149,9 +128,26 @@
                     <div id="movimientos-wrapper" class="hidden">
                         <div class="border-t border-gray-700 pt-6 mt-6">
                             <div class="flex items-center gap-3 mb-4"><div class="h-6 w-1 bg-emerald-500 rounded-full"></div><h4 class="text-lg font-bold">Últimos Movimientos Estratégicos</h4></div>
-                            <div class="bg-slate-800/30 border border-gray-700 rounded-xl p-6 w-full"><p id="pm-movimientos" class="text-gray-300 text-sm leading-relaxed font-mono"></p></div>
+                            <div class="bg-slate-800/30 border border-gray-700 rounded-xl p-6 w-full"><p id="pm-movimientos" class="text-gray-300 text-sm leading-relaxed font-mono whitespace-pre-wrap"></p></div>
                         </div>
                     </div>
+
+                    <div id="historial-wrapper" class="mt-6 border-t border-gray-700 pt-4">
+                        <button onclick="toggleHistorial()" class="w-full flex justify-between items-center bg-slate-800/50 hover:bg-slate-800 p-4 rounded-xl border border-gray-700 transition group">
+                            <div class="flex items-center gap-3">
+                                <div class="h-6 w-1 bg-purple-500 rounded-full"></div>
+                                <h4 class="text-lg font-bold text-gray-300 group-hover:text-white">Historial de Movimientos</h4>
+                            </div>
+                            <i id="historial-icon" class="ph-bold ph-caret-down text-gray-400 group-hover:text-white transition-transform duration-300"></i>
+                        </button>
+                        
+                        <div id="historial-content" class="hidden mt-2 bg-slate-900/50 border border-gray-800 rounded-xl p-6">
+                            <p id="pm-historial" class="text-gray-400 text-sm leading-relaxed font-mono whitespace-pre-wrap pl-4 border-l-2 border-purple-900">
+                                ⚠️ Sin datos de historial. (Verifica Apps Script)
+                            </p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -260,30 +256,51 @@
                     </tr>`;
             });
 
+            // Movimientos
             const movDiv = document.getElementById('movimientos-wrapper');
             const movText = document.getElementById('pm-movimientos');
             if (cartera.movimientos && cartera.movimientos.trim().length > 0) { movText.innerText = cartera.movimientos; movDiv.classList.remove('hidden'); } else { movDiv.classList.add('hidden'); }
+
+            // HISTORIAL (FORZADO: SIEMPRE VISIBLE)
+            const histText = document.getElementById('pm-historial');
+            
+            // Si el objeto 'cartera' tiene la propiedad 'historial' y no está vacía:
+            if (cartera.historial && cartera.historial.toString().trim().length > 0) { 
+                histText.innerText = cartera.historial; 
+                histText.classList.remove('text-red-400'); // Quitar color de alerta
+                histText.classList.add('text-gray-400'); // Poner color normal
+            } else { 
+                // Si no hay datos, mostrar aviso
+                histText.innerText = "No se encontraron datos de historial."; 
+                histText.classList.add('text-red-400');
+            }
+
+            // Resetear acordeón
+            document.getElementById('historial-content').classList.add('hidden');
+            document.getElementById('historial-icon').style.transform = 'rotate(0deg)';
 
             updateChartMode('activo');
             document.getElementById('portfolio-modal').classList.remove('hidden');
         }
 
+        function toggleHistorial() {
+            const content = document.getElementById('historial-content');
+            const icon = document.getElementById('historial-icon');
+            if (content.classList.contains('hidden')) { content.classList.remove('hidden'); icon.style.transform = 'rotate(180deg)'; } 
+            else { content.classList.add('hidden'); icon.style.transform = 'rotate(0deg)'; }
+        }
+
         function updateChartMode(mode) {
             const cartera = globalData.carteras[currentPortfolioIndex];
-            
             ['activo', 'tipo', 'moneda'].forEach(m => {
                 const btn = document.getElementById(`btn-${m}`);
                 if(m === mode) { btn.classList.remove('btn-inactive'); btn.classList.add('btn-active'); }
                 else { btn.classList.remove('btn-active'); btn.classList.add('btn-inactive'); }
             });
 
-            let chartLabels = [];
-            let chartData = [];
-
-            if (mode === 'activo') {
-                chartLabels = cartera.activos;
-                chartData = cartera.porcentajes;
-            } else {
+            let chartLabels = [], chartData = [];
+            if (mode === 'activo') { chartLabels = cartera.activos; chartData = cartera.porcentajes; } 
+            else {
                 let grouped = {};
                 cartera.activos.forEach((activo, i) => {
                     const tickerKey = activo.trim().toUpperCase();
@@ -293,34 +310,12 @@
                     if (!grouped[key]) grouped[key] = 0;
                     grouped[key] += cartera.porcentajes[i];
                 });
-                chartLabels = Object.keys(grouped);
-                chartData = Object.values(grouped);
+                chartLabels = Object.keys(grouped); chartData = Object.values(grouped);
             }
 
             if (currentModalChart) currentModalChart.destroy();
             const ctx = document.getElementById('modal-chart').getContext('2d');
-            currentModalChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: chartLabels,
-                    datasets: [{
-                        data: chartData,
-                        backgroundColor: chartLabels.map((_, i) => getColor(i)),
-                        borderColor: '#0f172a',
-                        borderWidth: 0,
-                        hoverOffset: 10
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '60%',
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: { backgroundColor: 'rgba(15, 23, 42, 0.9)', padding: 12, bodyFont: { size: 14 } }
-                    }
-                }
-            });
+            currentModalChart = new Chart(ctx, { type: 'doughnut', data: { labels: chartLabels, datasets: [{ data: chartData, backgroundColor: chartLabels.map((_, i) => getColor(i)), borderColor: '#0f172a', borderWidth: 0, hoverOffset: 10 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '60%', plugins: { legend: { display: false }, tooltip: { backgroundColor: 'rgba(15, 23, 42, 0.9)', padding: 12, bodyFont: { size: 14 } } } } });
         }
 
         function closePortfolioModal() { document.getElementById('portfolio-modal').classList.add('hidden'); }
