@@ -62,16 +62,25 @@
                 <h2 class="text-2xl font-bold text-white">Aviso Legal</h2>
                 <p class="text-gray-400 text-sm mt-2">I-Desk Asset Management</p>
             </div>
-            <div class="disclaimer-scroll max-h-[50vh] overflow-y-auto bg-slate-900/80 rounded-xl p-6 border border-gray-700 mb-6">
-                <p class="text-gray-300 text-sm leading-relaxed mb-4">Las carteras de inversión publicadas en este sitio constituyen carteras modelo elaboradas con fines exclusivamente informativos e ilustrativos, y no constituyen recomendaciones de inversión, ni oferta pública de valores negociables en los términos de la normativa vigente del mercado de capitales de la República Argentina. Las inversiones en instrumentos financieros implican riesgos y los rendimientos pasados no garantizan resultados futuros, pudiendo producirse incluso la pérdida total o parcial del capital invertido.</p>
-                <p class="text-yellow-500/80 text-xs font-bold uppercase tracking-wider mb-3">Aviso Legal Completo</p>
-                <p class="text-gray-400 text-xs leading-relaxed mb-3">La información contenida en el presente sitio web tiene carácter meramente informativo y educativo. Las carteras publicadas constituyen carteras modelo o simulaciones teóricas, elaboradas con fines exclusivamente ilustrativos, y no constituyen asesoramiento financiero personalizado, recomendación individual de inversión, oferta pública de valores negociables, ni solicitud de oferta en los términos de la normativa vigente del mercado de capitales de la República Argentina, conforme lo dispuesto en la Ley de Mercado de Capitales N° 26.831 y las normas de la Comisión Nacional de Valores.</p>
-                <p class="text-gray-400 text-xs leading-relaxed mb-3">Las carteras modelo se elaboran sobre supuestos de mercado y criterios generales de asignación de activos, por lo que pueden diferir de las carteras efectivamente implementadas por inversores. Asimismo, los resultados teóricos o históricos no contemplan necesariamente comisiones, costos operativos, impuestos ni condiciones particulares de ejecución que puedan afectar el resultado final de una inversión.</p>
-                <p class="text-gray-400 text-xs leading-relaxed mb-3">Las inversiones en instrumentos financieros implican riesgos, incluyendo, entre otros, riesgo de mercado, crédito, liquidez, tipo de cambio y riesgos regulatorios. En consecuencia, los rendimientos pasados no constituyen garantía ni indicación de resultados futuros, pudiendo incluso producirse la pérdida total o parcial del capital invertido.</p>
-                <p class="text-gray-400 text-xs leading-relaxed mb-3">La información aquí contenida ha sido obtenida de fuentes consideradas confiables; no obstante, I-DESK S.A.S. no garantiza la exactitud, integridad o actualización de dicha información y no asume responsabilidad alguna por errores u omisiones que pudieran existir ni por las decisiones de inversión adoptadas sobre la base de la información contenida en este sitio.</p>
-                <p class="text-gray-400 text-xs leading-relaxed mb-3">Se recomienda a los potenciales inversores evaluar de manera independiente la conveniencia de cualquier inversión considerando su situación financiera, objetivos de inversión, horizonte temporal y tolerancia al riesgo, pudiendo recurrir a asesores financieros, legales y/o impositivos debidamente habilitados.</p>
-                <p class="text-gray-400 text-xs leading-relaxed">El acceso al presente sitio implica el conocimiento y aceptación de los términos aquí establecidos. Queda prohibida la reproducción, distribución o divulgación total o parcial del contenido sin la autorización previa y expresa de I-DESK S.A.S.</p>
+            
+            <div class="disclaimer-scroll max-h-[50vh] overflow-y-auto bg-slate-900/80 rounded-xl p-6 border border-gray-700 mb-6 transition-all duration-300">
+                <p class="text-gray-300 text-sm leading-relaxed">Las carteras de inversión publicadas en este sitio constituyen carteras modelo elaboradas con fines exclusivamente informativos e ilustrativos, y no constituyen recomendaciones de inversión, ni oferta pública de valores negociables en los términos de la normativa vigente del mercado de capitales de la República Argentina. Las inversiones en instrumentos financieros implican riesgos y los rendimientos pasados no garantizan resultados futuros, pudiendo producirse incluso la pérdida total o parcial del capital invertido.</p>
+                
+                <button type="button" onclick="toggleFullDisclaimer()" id="btn-read-more" class="text-blue-400 hover:text-blue-300 text-xs font-bold mt-3 transition flex items-center gap-1 focus:outline-none">
+                    Ver más <i class="ph-bold ph-caret-down"></i>
+                </button>
+
+                <div id="full-disclaimer-text" class="hidden mt-4 pt-4 border-t border-gray-700/50">
+                    <p class="text-yellow-500/80 text-xs font-bold uppercase tracking-wider mb-3">Aviso Legal Completo</p>
+                    <p class="text-gray-400 text-xs leading-relaxed mb-3">La información contenida en el presente sitio web tiene carácter meramente informativo y educativo. Las carteras publicadas constituyen carteras modelo o simulaciones teóricas, elaboradas con fines exclusivamente ilustrativos, y no constituyen asesoramiento financiero personalizado, recomendación individual de inversión, oferta pública de valores negociables, ni solicitud de oferta en los términos de la normativa vigente del mercado de capitales de la República Argentina, conforme lo dispuesto en la Ley de Mercado de Capitales N° 26.831 y las normas de la Comisión Nacional de Valores.</p>
+                    <p class="text-gray-400 text-xs leading-relaxed mb-3">Las carteras modelo se elaboran sobre supuestos de mercado y criterios generales de asignación de activos, por lo que pueden diferir de las carteras efectivamente implementadas por inversores. Asimismo, los resultados teóricos o históricos no contemplan necesariamente comisiones, costos operativos, impuestos ni condiciones particulares de ejecución que puedan afectar el resultado final de una inversión.</p>
+                    <p class="text-gray-400 text-xs leading-relaxed mb-3">Las inversiones en instrumentos financieros implican riesgos, incluyendo, entre otros, riesgo de mercado, crédito, liquidez, tipo de cambio y riesgos regulatorios. En consecuencia, los rendimientos pasados no constituyen garantía ni indicación de resultados futuros, pudiendo incluso producirse la pérdida total o parcial del capital invertido.</p>
+                    <p class="text-gray-400 text-xs leading-relaxed mb-3">La información aquí contenida ha sido obtenida de fuentes consideradas confiables; no obstante, I-DESK S.A.S. no garantiza la exactitud, integridad o actualización de dicha información y no asume responsabilidad alguna por errores u omisiones que pudieran existir ni por las decisiones de inversión adoptadas sobre la base de la información contenida en este sitio.</p>
+                    <p class="text-gray-400 text-xs leading-relaxed mb-3">Se recomienda a los potenciales inversores evaluar de manera independiente la conveniencia de cualquier inversión considerando su situación financiera, objetivos de inversión, horizonte temporal y tolerancia al riesgo, pudiendo recurrir a asesores financieros, legales y/o impositivos debidamente habilitados.</p>
+                    <p class="text-gray-400 text-xs leading-relaxed">El acceso al presente sitio implica el conocimiento y aceptación de los términos aquí establecidos. Queda prohibida la reproducción, distribución o divulgación total o parcial del contenido sin la autorización previa y expresa de I-DESK S.A.S.</p>
+                </div>
             </div>
+
             <div class="flex items-start gap-3 mb-6">
                 <input type="checkbox" id="disclaimer-check" class="mt-1 w-4 h-4 accent-blue-500 cursor-pointer flex-shrink-0" onchange="toggleDisclaimerBtn()">
                 <label for="disclaimer-check" class="text-gray-300 text-sm cursor-pointer select-none">He leído y acepto los términos del aviso legal y descargo de responsabilidad.</label>
@@ -279,6 +288,20 @@
             if (localStorage.getItem("idesk_logged_in") === "true") { ocultarLogin(); }
         });
 
+        // NUEVA FUNCIÓN: Toggle para el Aviso Legal
+        function toggleFullDisclaimer() {
+            const fullTextDiv = document.getElementById('full-disclaimer-text');
+            const btn = document.getElementById('btn-read-more');
+            
+            if (fullTextDiv.classList.contains('hidden')) {
+                fullTextDiv.classList.remove('hidden');
+                btn.innerHTML = 'Ver menos <i class="ph-bold ph-caret-up"></i>';
+            } else {
+                fullTextDiv.classList.add('hidden');
+                btn.innerHTML = 'Ver más <i class="ph-bold ph-caret-down"></i>';
+            }
+        }
+
         function intentarLogin(e) {
             e.preventDefault();
             if (document.getElementById("input-user").value === AUTH_CONFIG.userHash && document.getElementById("input-pass").value === AUTH_CONFIG.passHash) {
@@ -297,6 +320,11 @@
         function mostrarDisclaimer() {
             document.getElementById("disclaimer-screen").classList.remove("hidden");
             document.getElementById("disclaimer-check").checked = false;
+            
+            // Nos aseguramos que el texto esté oculto al mostrar por primera vez
+            document.getElementById('full-disclaimer-text').classList.add('hidden');
+            document.getElementById('btn-read-more').innerHTML = 'Ver más <i class="ph-bold ph-caret-down"></i>';
+            
             toggleDisclaimerBtn();
         }
 
@@ -776,13 +804,28 @@
                     y += boxH + 6;
                 }
 
-                // --- DISCLAIMER ---
-                checkPage(30);
-                y += 10;
+                // --- DISCLAIMER (FIJADO AL FONDO) ---
+                pdf.setFontSize(6);
+                pdf.setFont('helvetica', 'normal');
+                
+                var legalText = "Las carteras de inversión publicadas en este sitio constituyen carteras modelo elaboradas con fines exclusivamente informativos e ilustrativos, y no constituyen recomendaciones de inversión, ni oferta pública de valores negociables en los términos de la normativa vigente del mercado de capitales de la República Argentina. Las inversiones en instrumentos financieros implican riesgos y los rendimientos pasados no garantizan resultados futuros, pudiendo producirse incluso la pérdida total o parcial del capital invertido. La información contenida tiene carácter meramente informativo y educativo, no constituye asesoramiento financiero personalizado, conforme lo dispuesto en la Ley de Mercado de Capitales N° 26.831 y las normas de la CNV. I-DESK S.A.S. no garantiza la exactitud, integridad o actualización de dicha información. Se recomienda a los inversores evaluar de manera independiente la conveniencia de cualquier inversión. El acceso al presente sitio implica el conocimiento y aceptación de estos términos. Queda prohibida la reproducción total o parcial sin autorización expresa de I-DESK S.A.S.";
+                var legalLines = pdf.splitTextToSize(legalText, cw);
+                
+                // Calculamos cuánto espacio ocupará el disclaimer (línea separadora + título + texto)
+                var disclaimerHeight = 5 + 4 + (legalLines.length * 2.5);
+                
+                // Si el contenido actual de la página invadió el fondo reservado para el disclaimer, agregamos hoja
+                if (y > H - disclaimerHeight - 20) {
+                    pdf.addPage();
+                }
+                
+                // Posicionamos Y estrictamente en la parte inferior, dejando 12 de margen para el footer
+                y = H - disclaimerHeight - 12;
+
                 pdf.setDrawColor(209, 213, 219);
                 pdf.setLineWidth(0.2);
                 pdf.line(mg, y, W - mg, y);
-                y += 5;
+                y += 4;
                 
                 pdf.setFontSize(6);
                 pdf.setTextColor(...gray);
@@ -791,11 +834,7 @@
                 y += 4;
                 
                 pdf.setFont('helvetica', 'normal');
-                var legalText = "Las carteras de inversión publicadas en este sitio constituyen carteras modelo elaboradas con fines exclusivamente informativos e ilustrativos, y no constituyen recomendaciones de inversión, ni oferta pública de valores negociables en los términos de la normativa vigente del mercado de capitales de la República Argentina. Las inversiones en instrumentos financieros implican riesgos y los rendimientos pasados no garantizan resultados futuros, pudiendo producirse incluso la pérdida total o parcial del capital invertido. La información contenida tiene carácter meramente informativo y educativo, no constituye asesoramiento financiero personalizado, conforme lo dispuesto en la Ley de Mercado de Capitales N° 26.831 y las normas de la CNV. I-DESK S.A.S. no garantiza la exactitud, integridad o actualización de dicha información. Se recomienda a los inversores evaluar de manera independiente la conveniencia de cualquier inversión. El acceso al presente sitio implica el conocimiento y aceptación de estos términos. Queda prohibida la reproducción total o parcial sin autorización expresa de I-DESK S.A.S.";
-                
-                var legalLines = pdf.splitTextToSize(legalText, cw);
                 pdf.text(legalLines, mg, y, { align: 'justify', maxWidth: cw });
-                y += legalLines.length * 2.5 + 5;
 
                 // --- FOOTER ---
                 pdf.setFontSize(6);
